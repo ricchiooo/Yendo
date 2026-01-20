@@ -1,19 +1,17 @@
 {
   "name": "yendo",
   "version": "1.0.0",
-  "type"
-  "description": "",
-  "main": "index.js",
+  "type": "module",
+  "description": "YENDO backend API",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "@solana/web3.js": "^1.98.4",
-    "commander": "^14.0.2",
-    "dotenv": "^17.2.3"
+    "@solana/web3.js": "^1.95.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "bs58": "^5.0.0"
   }
 }

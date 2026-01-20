@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { getBalance } from "./src/balance.js";
-import { sendSol } from "./src/send.js";
+import { getBalance } from "./balance.js";
+import { sendSol } from "./send.js";
 
 dotenv.config();
 
@@ -29,7 +29,4 @@ app.post("/send", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log("YENDO API running on port", PORT);
-});
+app.listen(process.env.PORT || 3000);

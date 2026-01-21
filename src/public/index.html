@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>YENDO</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">YENDO</div>
+    <nav>
+      <a href="#">Dashboard</a>
+      <a href="#">Send</a>
+      <a href="#">Docs</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Wallet Balance</h2>
+      <button onclick="getBalance()">Check Balance</button>
+      <pre id="balanceResult"></pre>
+    </section>
+
+    <section>
+      <h2>Send SOL</h2>
+      <input id="to" placeholder="Recipient address" />
+      <input id="amount" placeholder="Amount (SOL)" />
+      <button onclick="sendSol()">Send</button>
+      <pre id="sendResult"></pre>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

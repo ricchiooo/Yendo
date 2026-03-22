@@ -1,43 +1,35 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-
-import { getBalance } from "./src/balance.js";
-import { sendSol } from "./src/send.js";
-import { getConnection, getKeypair } from "./src/wallet.js";
-
-dotenv.config();
+const express = require("express");
+const { Connection, PublicKey } = require("@solana/web3.js");
 
 const app = express();
-app.use(cors());
-app.use(express.json());
 
-const connection = getConnection();
-const keypair = getKeypair();
+const connection = new Connection("https://api.devnet.solana.com");
 
-app.get("/balance", async (req, res) => {
+app.get("/balance/:address", async (req, res) => {
+
   try {
-    const balance = await connection.getBalance(keypair.publicKey);
+
+    const address = req.params.address;
+
+    const publicKey = new PublicKey(address);
+
+    const balance = await connection.getBalance(publicKey);
+
     res.json({
-      address: keypair.publicKey.toBase58(),
-      balance: balance / 1e9
+      address,
+      balance: balance / 1000000000
     });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
+
+  } catch (error) {
+
+    res.status(400).json({
+      error: "Invalid wallet address"
+    });
+
   }
+
 });
 
-app.post("/send", async (req, res) => {
-  try {
-    const { to, amount } = req.body;
-    const sig = await sendSol(connection, keypair, to, amount);
-    res.json({ signature: sig });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log("YENDO API running on port", PORT);
+app.listen(3000, () => {
+  console.log("YENDO API running on port 3000");
 });

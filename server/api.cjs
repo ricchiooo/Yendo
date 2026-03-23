@@ -19,22 +19,29 @@ const {
 const app = express();
 app.use(cors());
 app.use(express.json());
+// Serve frontend
+app.use(express.static(path.join(__dirname, "../frontend/public")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/public/index.html"));
+});
 
 // 3️⃣ Solana connection
 const connection = new Connection("https://api.devnet.solana.com");
 
 // 4️⃣ Load wallet (⚠️ WILL CHANGE FOR DEPLOYMENT LATER)
-let secretKey;
-console.log("ENV RAW:", process.env.PRIVATE_KEY);
-if (process.env.PRIVATE_KEY) {
-  secretKey = JSON.parse(process.env.PRIVATE_KEY);
-} else {
-  secretKey = JSON.parse(
+let sender;
+
+try {
+  const secretKey = JSON.parse(
     fs.readFileSync(path.join(__dirname, "wallet.json"))
   );
-}
 
-const sender = Keypair.fromSecretKey(new Uint8Array(secretKey));
+  sender = Keypair.fromSecretKey(new Uint8Array(secretKey));
+
+} catch (err) {
+  console.log("⚠️ Wallet not found. App running without sender.");
+}
 
 // 5️⃣ Serve frontend (IMPORTANT FOR RENDER)
 app.use(express.static(path.join(__dirname, "../frontend/public")));
@@ -69,6 +76,11 @@ app.get("/balance/:address", async (req, res) => {
 /* ---------------- SEND SOL ---------------- */
 
 app.post("/send", async (req, res) => {
+  if (!sender) {
+  return res.status(500).json({
+    error: "Wallet not configured on server"
+  });
+}
   try {
     const { to, amount } = req.body;
 

@@ -80,7 +80,7 @@ app.post("/send", async (req, res) => {
   return res.status(500).json({
     error: "Wallet not configured on server"
   });
-}
+} 
   try {
     const { to, amount } = req.body;
 

@@ -1,55 +1,45 @@
-require("dotenv").config({ path: require("path").resolve(__dirname, "../.env") }); // ✅ MUST BE FIRST
+require("dotenv").config({ path: require("path").resolve(__dirname, "../.env") }); // MUST BE FIRST
 
 // 1️⃣ Imports
 const cors = require("cors");
 const express = require("express");
 const path = require("path");
-const fs = require("fs");
 
 const {
   Connection,
   PublicKey,
-  Keypair,
   SystemProgram,
   Transaction,
   sendAndConfirmTransaction
 } = require("@solana/web3.js");
 
+// 🔥 IMPORT YOUR WALLET LOGIC
+const { getKeypair } = require("./wallet.js");
+
 // 2️⃣ App setup
 const app = express();
 app.use(cors());
 app.use(express.json());
-// Serve frontend
+
+// 3️⃣ Serve frontend
 app.use(express.static(path.join(__dirname, "../frontend/public")));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/public/index.html"));
 });
 
-// 3️⃣ Solana connection
+// 4️⃣ Solana connection
 const connection = new Connection("https://api.devnet.solana.com");
 
-// 4️⃣ Load wallet (⚠️ WILL CHANGE FOR DEPLOYMENT LATER)
+// 5️⃣ Load wallet (ENV-based)
 let sender;
 
 try {
-  const secretKey = JSON.parse(
-    fs.readFileSync(path.join(__dirname, "wallet.json"))
-  );
-
-  sender = Keypair.fromSecretKey(new Uint8Array(secretKey));
-
+  sender = getKeypair();
+  console.log("✅ Wallet loaded:", sender.publicKey.toBase58());
 } catch (err) {
-  console.log("⚠️ Wallet not found. App running without sender.");
+  console.log("⚠️ Wallet not configured:", err.message);
 }
-
-// 5️⃣ Serve frontend (IMPORTANT FOR RENDER)
-app.use(express.static(path.join(__dirname, "../frontend/public")));
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/public/index.html"));
-});
-
 
 /* ---------------- BALANCE ---------------- */
 
@@ -72,15 +62,15 @@ app.get("/balance/:address", async (req, res) => {
   }
 });
 
-
 /* ---------------- SEND SOL ---------------- */
 
 app.post("/send", async (req, res) => {
   if (!sender) {
-  return res.status(500).json({
-    error: "Wallet not configured on server"
-  });
-} 
+    return res.status(500).json({
+      error: "Wallet not configured on server"
+    });
+  }
+
   try {
     const { to, amount } = req.body;
 
@@ -117,7 +107,6 @@ app.post("/send", async (req, res) => {
     });
   }
 });
-
 
 // 6️⃣ Start server (Render compatible)
 const PORT = process.env.PORT || 3000;

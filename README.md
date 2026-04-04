@@ -122,9 +122,8 @@ YENDO is currently under active development. Planned features include:
 
 ## Links
 
-Website /Project Demo - https://arena.colosseum.org/projects/explore/yendo-1
-
-CyreneAI launch page - https://cyreneai.com/preview-page/yendo
+Website /Project Demo - https://yendo-cli-1.onrender.com
+https://www.loom.com/share/d4a0c0708eb74ca390124865d627924d
 
 Twitter/X - https://x.com/ricchioo
 

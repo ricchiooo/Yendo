@@ -1,3 +1,4 @@
+const wallet = require("./wallet.cjs");
 require("dotenv").config({ path: require("path").resolve(__dirname, "../.env") }); // MUST BE FIRST
 
 // 1️⃣ Imports
@@ -14,7 +15,7 @@ const {
 } = require("@solana/web3.js");
 
 // 🔥 IMPORT YOUR WALLET LOGIC
-const { getKeypair } = require("./wallet.js");
+const { getKeypair } = require("./wallet.cjs");
 
 // 2️⃣ App setup
 const app = express();

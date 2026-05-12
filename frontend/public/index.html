@@ -15,38 +15,89 @@
     </nav>
   </header>
 
-  <main>
-    <section style="padding: 20px; border-bottom: 1px solid #ccc;">
-  <h1>YENDO</h1>
-  <p><strong>CLI-first infrastructure for onchain automation and intelligent execution on Solana.</strong></p>
+  <div class="container">
 
-  <p>This demo shows:</p>
-  <ul>
-    <li>Wallet balance queries</li>
-    <li>Transaction execution</li>
-    <li>Backend orchestration</li>
-  </ul>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>YENDO</h2>
+    <ul>
+      <li>Dashboard</li>
+      <li>Wallet</li>
+      <li>Transactions</li>
+      <li>Execute</li>
+      <li>Agents</li>
+      <li>Logs</li>
+    </ul>
+  </aside>
 
-  <p style="color: orange;">
-    ⚠️ Demo environment (Devnet) — transactions use a server-controlled wallet.
-  </p>
-    <section>
-      <h2>Demo Dashboard (Server-Controlled Wallet)</h2>
+  <!-- Main Content -->
+  <div class="main">
 
-<div class="card">
-  <h3>Wallet</h3>
-  <pre id="balanceResult"></pre>
+  <!-- Top Cards Row -->
+  <div class="cards">
+    <div class="card">
+      <h3>SOL Balance</h3>
+      <p id="balanceAmount">-- SOL</p>
+      <p id="usdValue">$0.00</p>
+    </div>
+
+    <div class="card">
+      <h3>Transactions</h3>
+      <p>2,841</p>
+    </div>
+
+    <div class="card">
+      <h3>Active Jobs</h3>
+      <p>3</p>
+    </div>
+  </div>
+
+  <!-- Bottom Section -->
+  <div class="bottom">
+
+    <!-- Terminal -->
+    <div class="terminal">
+      <h3>Terminal</h3>
+      <pre id="terminalOutput">yendo shell ready...</pre>
+
+      <input id="commandInput" placeholder="yendo <command>" />
+      <button onclick="runCommand()">Run</button>
+    </div>
+
+    <!-- Recent Transactions -->
+    <div class="card">
+      <h3>Recent Transactions</h3>
+      <div id="txFeed"></div>
+    </div>
+    
+    <div class="card">
+  <h3>Backend Orchestration</h3>
+  <div class="tx-item">
+    <span>arb-monitor</span>
+    <span style="color:#00ff9f;">running</span>
+  </div>
+  <div class="tx-item">
+    <span>price-feed</span>
+    <span style="color:#00ff9f;">running</span>
+  </div>
+  <div class="tx-item">
+    <span>rebalancer</span>
+    <span style="color:#ffd43b;">queued</span>
+  </div>
 </div>
-    </section>
 
-    <section>
-      <h2>Send SOL</h2>
+    <!-- Send SOL -->
+    <div class="send">
+      <h3>Send SOL</h3>
       <input id="to" placeholder="Recipient address" />
       <input id="amount" placeholder="Amount (SOL)" />
       <button onclick="sendSol()">Send</button>
       <pre id="sendResult"></pre>
-    </section>
-  </main>
+    </div>
+
+  </div>
+
+</div>
 
   <script src="app.js"></script>
 </body>

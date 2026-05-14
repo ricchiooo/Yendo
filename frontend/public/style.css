@@ -288,3 +288,29 @@ button:hover {
   font-weight: bold;
   color: #00ff9f;
 }
+#balanceResult {
+  margin-top: 10px;
+  line-height: 1.6;
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  input {
+    width: 100%;
+  }
+}

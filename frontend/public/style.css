@@ -294,7 +294,35 @@ button:hover {
   font-size: 14px;
   color: #ccc;
 }
+.tx-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
 
+.tx-item p {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #d1d5db;
+}
+#txFeed {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+#txFeed::-webkit-scrollbar {
+  width: 6px;
+}
+
+#txFeed::-webkit-scrollbar-thumb {
+  background: #22c55e;
+  border-radius: 10px;
+}
+.tx-item strong {
+  color: white;
+}
 /* MOBILE RESPONSIVENESS */
 @media (max-width: 900px) {
   .container {

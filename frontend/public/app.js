@@ -113,44 +113,56 @@ if (input.includes("balance")) {
   // clear input
   inputEl.value = "";
 }
-setInterval(() => {
-  const tx = document.querySelector(".card:nth-child(2)");
-  if (tx) {
-    tx.innerHTML = `<h3>Transactions</h3>${Math.floor(Math.random() * 5000)}`;
+async function loadTransactionCount() {
+  try {
+    const response = await fetch("http://localhost:3000/transactions");
+    const data = await response.json();
+
+    const txCard = document.querySelector(".card:nth-child(2)");
+
+    if (txCard) {
+      txCard.innerHTML = `
+        <h3>Transactions</h3>
+        <p>${transactions.length}</p>
+      `;
+    }
+  } catch (err) {
+    console.error(err);
   }
-}, 3000);
-const fakeTxs = [
-  { type: "SEND", addr: "3xzH...91kp", amount: "-5.00 SOL", time: "2m ago" },
-  { type: "SWAP", addr: "8pQw...47Lm", amount: "+412 USDC", time: "14m ago" },
-  { type: "EXEC", addr: "Fg1z...cX3n", amount: "program call", time: "1h ago" },
-  { type: "RECV", addr: "2mKv...89Tp", amount: "+20.00 SOL", time: "3h ago" },
-  { type: "SEND", addr: "7abC...12De", amount: "-1.25 SOL", time: "5m ago" }
-];
+}
+async function loadTransactions() {
+  try {
+    const response = await fetch("http://localhost:3000/transactions");
+    const transactions = await response.json();
 
-function renderTxFeed() {
-  const container = document.getElementById("txFeed");
-  if (!container) return;
+    const txContainer = document.getElementById("txFeed");
 
-  container.innerHTML = "";
+    if (!txContainer) return;
 
-  fakeTxs.forEach(tx => {
-    const el = document.createElement("div");
-    el.className = "tx-item";
+    txContainer.innerHTML = "";
 
-    el.innerHTML = `
-      <span class="tx-type ${tx.type.toLowerCase()}">${tx.type}</span>
-      <span class="tx-addr">${tx.addr}</span>
-      <span class="tx-amount">${tx.amount}</span>
-      <span class="tx-time">${tx.time}</span>
-    `;
+    transactions.forEach((tx) => {
+      const txElement = document.createElement("div");
 
-    container.appendChild(el);
-  });
+      const shortSig =
+        tx.signature.slice(0, 8) + "..." + tx.signature.slice(-6);
+
+      const time = new Date(tx.blockTime * 1000).toLocaleString();
+
+      txElement.classList.add("tx-item");
+
+txElement.innerHTML = `
+  <p><strong>Signature</strong>: ${shortSig}</p>
+  <p><strong>Status</strong>: ${tx.confirmationStatus} ✅</p>
+  <p><strong>Time</strong>: ${time}</p>
+`;
+
+      txContainer.appendChild(txElement);
+    });
+
+  } catch (err) {
+    console.error("Transaction fetch failed:", err);
+  }
 }
 
-setInterval(() => {
-  fakeTxs.unshift(fakeTxs.pop()); // rotate list
-  renderTxFeed();
-}, 3000);
-
-renderTxFeed();
+loadTransactions();

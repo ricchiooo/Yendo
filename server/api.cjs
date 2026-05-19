@@ -111,7 +111,18 @@ app.post("/send", async (req, res) => {
 
 // 6️⃣ Start server (Render compatible)
 const PORT = process.env.PORT || 3000;
+app.get("/transactions", async (req, res) => {
+  try {
+    const signatures = await connection.getSignaturesForAddress(
+      new PublicKey("CryX4FRYdYB4SyUZ3qyxBKG3g68mFG6qZrbzha38Piwc"),
+      { limit: 10 }
+    );
 
+    res.json(signatures);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 app.listen(PORT, () => {
   console.log(`YENDO API running on port ${PORT}`);
 });

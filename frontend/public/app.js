@@ -124,15 +124,14 @@ function runCommand() {
 }
 async function loadTransactionCount() {
   try {
-    const response = await fetch("http://localhost:3000/transactions");
+    const response = await fetch(`${API}/transactions`);
     const data = await response.json();
-
     const txCard = document.querySelector(".card:nth-child(2)");
 
     if (txCard) {
       txCard.innerHTML = `
         <h3>Transactions</h3>
-        <p>${transactions.length}</p>
+        <p>${data.length}</p>
       `;
     }
   } catch (err) {
@@ -141,9 +140,8 @@ async function loadTransactionCount() {
 }
 async function loadTransactions() {
   try {
-    const response = await fetch("http://localhost:3000/transactions");
+    const response = await fetch(`${API}/transactions`);
     const transactions = await response.json();
-
     const txContainer = document.getElementById("txFeed");
 
     if (!txContainer) return;
@@ -174,4 +172,5 @@ txElement.innerHTML = `
   }
 }
 
+loadTransactionCount();
 loadTransactions();

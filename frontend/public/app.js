@@ -60,7 +60,7 @@ async function sendSol() {
 }
 function runCommand() {
   const inputEl = document.getElementById("commandInput");
-  const input = inputEl.value;
+  const input = inputEl.value.trim().toLowerCase();
   const output = document.getElementById("terminalOutput");
 
   // show command in terminal
@@ -68,7 +68,11 @@ function runCommand() {
   output.scrollTop = output.scrollHeight;
 
  
-if (input.includes("balance")) {
+ if (
+  input.includes("balance") ||
+  input.includes("how much sol") ||
+  input.includes("wallet")
+) {
 
   output.textContent += "\nFetching balance...";
 
@@ -93,7 +97,12 @@ if (input.includes("balance")) {
     output.scrollTop = output.scrollHeight;
   }, 1500);
 
-} else if (input.includes("tx")) {
+} else if (
+  input.includes("tx") ||
+  input.includes("transaction") ||
+  input.includes("history") ||
+  input.includes("recent")
+) {
 
   output.textContent += "\nFetching transactions...";
 

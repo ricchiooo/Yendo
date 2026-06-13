@@ -46,7 +46,7 @@ async function signUp() {
   message.textContent = "✅ Account created successfully";
 
   setTimeout(() => {
-    window.location.href = "/public/dashboard.html";
+    window.location.href = "/dashboard.html";
   }, 1500);
 }
 async function login() {
@@ -100,7 +100,7 @@ async function resetPassword() {
 async function logout() {
   await supabaseClient.auth.signOut();
 
-  window.location.href = "/public/index.html";
+  window.location.href = "/index.html";
 }
 function toggleLoginPassword() {
   const input = document.getElementById("loginPassword");

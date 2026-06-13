@@ -72,7 +72,7 @@ console.log(error);
   message.textContent = "✅ Login successful";
 
   setTimeout(() => {
-  window.location.href = "/public/dashboard.html";
+  window.location.href = "/dashboard.html";
 }, 1000);
 }
 

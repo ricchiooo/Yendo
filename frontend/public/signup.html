@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YENDO Login</title>
+  <title>YENDO Signup</title>
 
   <link rel="stylesheet" href="/public/style.css">
 
@@ -15,44 +15,36 @@
 
   <h1>YENDO</h1>
 
-  <h2>Login</h2>
+  <h2>Create Account</h2>
 
-<input
-  type="email"
-  id="loginEmail"
-  placeholder="Email"
->
+  <input
+    type="email"
+    id="signupEmail"
+    placeholder="Email"
+  >
 
-<br><br>
+  <br><br>
 
-<input
+  <input
   type="password"
-  id="loginPassword"
+  id="signupPassword"
   placeholder="Password"
 >
 
-<button type="button" onclick="toggleLoginPassword()">
+<button type="button" onclick="toggleSignupPassword()">
   👁
 </button>
 
-<br><br>
-
-<button onclick="login()">
-  Login
-</button>
-
-<p id="authMessage"></p>
-
   <br><br>
 
-  <a href="signup.html">
+  <button onclick="signUp()">
     Create Account
-  </a>
+  </button>
 
   <br><br>
 
-  <a href="#" onclick="resetPassword()">
-    Forgot Password?
+  <a href="index.html">
+    Already have an account? Login
   </a>
 
   <p id="authMessage"></p>

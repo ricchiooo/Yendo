@@ -3,27 +3,75 @@ const API =
     ? "http://localhost:3000"
     : "https://yendo-cli-1.onrender.com";
 
-const wallet = "CryX4FRYdYB4SyUZ3qyxBKG3g68mFG6qZrbzha38Piwc";
-
+console.log("Supabase loaded:", supabase); 
 window.onload = getBalance;
 
 async function getBalance() {
-  const res = await fetch(`${API}/balance/${wallet}`);
-  const data = await res.json(); // ✅ THIS WAS MISSING
 
-  document.getElementById("balanceAmount").textContent =
+  const {
+    data: { user }
+  } = await supabaseClient.auth.getUser();
+
+  if (!user) {
+    console.log("No logged-in user.");
+    return;
+  }
+
+  const { data: profile, error } =
+    await supabaseClient
+      .from("profiles")
+      .select("wallet_address")
+      .eq("id", user.id)
+      .single();
+
+  if (error || !profile?.wallet_address) {
+    console.error(
+      "No wallet found:",
+      error
+    );
+
+    return;
+  }
+
+  const wallet =
+    profile.wallet_address;
+
+  const res =
+    await fetch(
+      `${API}/balance/${wallet}`
+    );
+
+  const data =
+    await res.json();
+
+  document.getElementById(
+    "balanceAmount"
+  ).textContent =
     data.balance + " SOL";
 
-    const solPrice = 150; // fake price for now
+  const solPrice = 150;
 
-document.getElementById("usdValue").textContent =
-  "$" + (data.balance * solPrice).toFixed(2);
+  document.getElementById(
+    "usdValue"
+  ).textContent =
+    "$" +
+    (
+      data.balance *
+      solPrice
+    ).toFixed(2);
 
-  // optional: send to terminal
-  const terminal = document.getElementById("terminalOutput");
+  const terminal =
+    document.getElementById(
+      "terminalOutput"
+    );
+
   if (terminal) {
-    terminal.textContent += `\nBalance: ${data.balance} SOL\n`;
+
+    terminal.textContent +=
+      `\nBalance: ${data.balance} SOL\n`;
+
   }
+
 }
 async function sendSol() {
   const to = document.getElementById("to").value;
@@ -123,54 +171,239 @@ function runCommand() {
   inputEl.value = "";
 }
 async function loadTransactionCount() {
+
   try {
-    const response = await fetch(`${API}/transactions`);
-    const data = await response.json();
-    const txCard = document.querySelector(".card:nth-child(2)");
+
+    const {
+      data: { user }
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) return;
+
+    const {
+      data: profile,
+      error
+    } = await supabaseClient
+      .from("profiles")
+      .select("wallet_address")
+      .eq("id", user.id)
+      .single();
+
+    if (error || !profile?.wallet_address) {
+      console.error("Wallet not found");
+      return;
+    }
+
+    const response =
+      await fetch(
+        `${API}/transactions/${profile.wallet_address}`
+      );
+
+    const data =
+      await response.json();
+
+    const txCard =
+      document.querySelector(
+        ".card:nth-child(2)"
+      );
 
     if (txCard) {
+
       txCard.innerHTML = `
         <h3>Transactions</h3>
         <p>${data.length}</p>
       `;
+
     }
+
   } catch (err) {
+
     console.error(err);
+
   }
+
 }
 async function loadTransactions() {
+
   try {
-    const response = await fetch(`${API}/transactions`);
-    const transactions = await response.json();
-    const txContainer = document.getElementById("txFeed");
+
+    const {
+      data: { user }
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) return;
+
+    const {
+      data: profile
+    } = await supabaseClient
+      .from("profiles")
+      .select("wallet_address")
+      .eq("id", user.id)
+      .single();
+
+    if (!profile?.wallet_address) return;
+
+    const response =
+      await fetch(
+        `${API}/transactions/${profile.wallet_address}`
+      );
+
+    const transactions =
+      await response.json();
+
+    const txContainer =
+      document.getElementById("txFeed");
 
     if (!txContainer) return;
 
     txContainer.innerHTML = "";
 
     transactions.forEach((tx) => {
-      const txElement = document.createElement("div");
+
+      const txElement =
+        document.createElement("div");
 
       const shortSig =
-        tx.signature.slice(0, 8) + "..." + tx.signature.slice(-6);
+        tx.signature.slice(0, 8) +
+        "..." +
+        tx.signature.slice(-6);
 
-      const time = new Date(tx.blockTime * 1000).toLocaleString();
+      const time =
+        new Date(
+          tx.blockTime * 1000
+        ).toLocaleString();
 
-      txElement.classList.add("tx-item");
+      txElement.classList.add(
+        "tx-item"
+      );
 
-txElement.innerHTML = `
-  <p><strong>Signature</strong>: ${shortSig}</p>
-  <p><strong>Status</strong>: ${tx.confirmationStatus} ✅</p>
-  <p><strong>Time</strong>: ${time}</p>
-`;
+      txElement.innerHTML = `
+        <p><strong>Signature</strong>: ${shortSig}</p>
+        <p><strong>Status</strong>: ${tx.confirmationStatus} ✅</p>
+        <p><strong>Time</strong>: ${time}</p>
+      `;
 
-      txContainer.appendChild(txElement);
+      txContainer.appendChild(
+        txElement
+      );
+
     });
 
   } catch (err) {
-    console.error("Transaction fetch failed:", err);
+
+    console.error(
+      "Transaction fetch failed:",
+      err
+    );
+
   }
+
 }
 
 loadTransactionCount();
 loadTransactions();
+async function signUp() {
+  const email =
+    document.getElementById("signupEmail").value;
+
+  const password =
+    document.getElementById("signupPassword").value;
+
+  const { data, error } =
+    await supabase.auth.signUp({
+      email,
+      password
+    });
+
+  const message =
+    document.getElementById("authMessage");
+
+  if (error) {
+    message.textContent =
+      "❌ " + error.message;
+    return;
+  }
+
+  message.textContent =
+    "✅ Account created successfully";
+}
+function toggleLoginPassword() {
+  const input = document.getElementById("loginPassword");
+
+  if (!input) return;
+
+  if (input.type === "password") {
+    input.type = "text";
+  } else {
+    input.type = "password";
+  }
+}
+
+function toggleSignupPassword() {
+  const input = document.getElementById("signupPassword");
+
+  if (!input) return;
+
+  if (input.type === "password") {
+    input.type = "text";
+  } else {
+    input.type = "password";
+  }
+}
+async function connectWallet() {
+
+  if (!window.solana || !window.solana.isPhantom) {
+    alert("Phantom Wallet is not installed.");
+    return;
+  }
+
+  try {
+
+    const response = await window.solana.connect();
+
+    const walletAddress =
+      response.publicKey.toString();
+
+    document.getElementById(
+      "walletAddress"
+    ).textContent =
+      "Wallet: " + walletAddress;
+const {
+  data: { user }
+} = await supabaseClient.auth.getUser();
+
+if (user) {
+
+  const { error } = await supabaseClient
+  .from("profiles")
+  .update({
+    wallet_address: walletAddress
+  })
+  .eq("id", user.id);
+
+console.log("Update error:", error);
+
+if (error) {
+  alert(
+    "WALLET SAVE ERROR: " +
+    JSON.stringify(error)
+  );
+} else {
+  alert("Wallet saved successfully!");
+}
+
+}
+    console.log(
+      "Connected wallet:",
+      walletAddress
+    );
+
+  } catch (err) {
+
+    console.error(err);
+
+    alert("Wallet connection cancelled.");
+
+  }
+
+}

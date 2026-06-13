@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>YENDO</title>
+  <button onclick="connectWallet()">
+  Connect Phantom Wallet
+</button>
+
+<p id="walletAddress">
+  Wallet: Not connected
+</p>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">YENDO</div>
+    <nav>
+      <a href="#">Dashboard</a>
+      <a href="#">Send</a>
+      <a href="#">Docs</a>
+      
+      <button onclick="logout()">
+  Logout
+</button>
+    </nav>
+  </header>
+
+  <div class="container">
+<div id="authSection">
+  <h2>Create Account</h2>
+
+  <input
+    type="email"
+    id="signupEmail"
+    placeholder="Email"
+  />
+
+  <input
+    type="password"
+    id="signupPassword"
+    placeholder="Password"
+  />
+
+  <button onclick="signUp()">
+    Sign Up
+  </button>
+
+  <p id="authMessage"></p>
+</div>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>YENDO</h2>
+    <ul>
+      <li>Dashboard</li>
+      <li>Wallet</li>
+      <li>Transactions</li>
+      <li>Execute</li>
+      <li>Agents</li>
+      <li>Logs</li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main">
+
+  <!-- Top Cards Row -->
+  <div class="cards">
+    <div class="card">
+      <h3>SOL Balance</h3>
+      <p id="balanceAmount">-- SOL</p>
+      <p id="usdValue">$0.00</p>
+    </div>
+
+    <div class="card" id="transactionsCard">
+  <h3>Transactions</h3>
+  <div id="txFeed"></div>
+</div>
+
+    <div class="card">
+      <h3>Active Jobs</h3>
+      <p>3</p>
+    </div>
+  </div>
+
+  <!-- Bottom Section -->
+  <div class="bottom">
+
+    <!-- Terminal -->
+    <div class="terminal">
+      <h3>Terminal</h3>
+      <pre id="terminalOutput">yendo shell ready...</pre>
+
+      <input id="commandInput" placeholder="yendo <command>" />
+      <button onclick="runCommand()">Run</button>
+    </div>
+
+    <!-- Recent Transactions -->
+    <div class="card">
+      <h3>Recent Transactions</h3>
+      <div id="txFeed"></div>
+    </div>
+    
+    <div class="card">
+  <h3>Backend Orchestration</h3>
+  <div class="tx-item">
+    <span>arb-monitor</span>
+    <span style="color:#00ff9f;">running</span>
+  </div>
+  <div class="tx-item">
+    <span>price-feed</span>
+    <span style="color:#00ff9f;">running</span>
+  </div>
+  <div class="tx-item">
+    <span>rebalancer</span>
+    <span style="color:#ffd43b;">queued</span>
+  </div>
+</div>
+
+    <!-- Send SOL -->
+    <div class="send">
+      <h3>Send SOL</h3>
+      <input id="to" placeholder="Recipient address" />
+      <input id="amount" placeholder="Amount (SOL)" />
+      <button onclick="sendSol()">Send</button>
+      <pre id="sendResult"></pre>
+    </div>
+
+  </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="supabase.js"></script>
+<script src="/public/auth.js"></script>
+  <script src="/public/app.js"></script>
+</body>
+</html>

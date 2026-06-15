@@ -300,8 +300,9 @@ async function loadTransactions() {
 
 }
 
-loadTransactionCount();
-loadTransactions();
+// Transactions temporarily disabled
+// loadTransactionCount();
+// loadTransactions();
 async function signUp() {
   const email =
     document.getElementById("signupEmail").value;

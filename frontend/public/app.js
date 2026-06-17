@@ -106,70 +106,116 @@ async function sendSol() {
   document.getElementById("to").value = "";
   document.getElementById("amount").value = "";
 }
+
+async function processYendoIntent(input, outputElement) {
+
+  input = input.trim().toLowerCase();
+
+  if (
+    input.includes("balance") ||
+    input.includes("how much sol") ||
+    input.includes("wallet")
+  ) {
+
+    await getBalance();
+
+    outputElement.textContent =
+      `You currently have ${
+        document.getElementById("balanceAmount").textContent
+      }.`;
+
+    return;
+  }
+
+  if (
+    input.includes("transaction") ||
+    input.includes("history") ||
+    input.includes("recent") ||
+    input.includes("tx")
+  ) {
+
+    outputElement.textContent =
+      "Transaction history is temporarily unavailable while we upgrade this feature.";
+
+    return;
+  }
+
+  if (
+    input.includes("send")
+  ) {
+
+    outputElement.textContent =
+      "To send SOL, go to the Send section, enter the recipient address and amount, then confirm the transaction.";
+
+    return;
+  }
+
+  if (
+    input.includes("phantom") ||
+    input.includes("connect wallet")
+  ) {
+
+    outputElement.textContent =
+      "Click the Connect Phantom button at the top of the dashboard to link your wallet.";
+
+    return;
+  }
+
+  if (
+    input.includes("help") ||
+    input.includes("what can you do")
+  ) {
+
+    outputElement.innerHTML = `
+<strong>YENDO AI Commands</strong><br><br>
+
+Just type in plain English:<br><br>
+
+• What's my wallet balance?<br>
+• How much SOL do I have?<br>
+• Show recent transactions<br>
+• How do I send SOL?<br>
+• How do I connect Phantom?<br>
+• Who are you?<br><br>
+
+Type <strong>'help'</strong> to see this menu again.
+<em>Try it now — just talk naturally.</em>
+`;
+    return;
+  }
+
+  if (
+    input.includes("who are you")
+  ) {
+
+    outputElement.textContent =
+      "I'm YENDO AI, your Solana wallet assistant.";
+
+    return;
+  }
+
+  outputElement.textContent =
+    "I don't understand that yet. Try asking for help.";
+}
 function runCommand() {
   const inputEl = document.getElementById("commandInput");
   const input = inputEl.value.trim().toLowerCase();
   const output = document.getElementById("terminalOutput");
 
-  // show command in terminal
-  output.textContent += `\n> ${input}`;
-  output.scrollTop = output.scrollHeight;
+ output.textContent += `\n> ${input}\n`;
 
- 
- if (
-  input.includes("balance") ||
-  input.includes("how much sol") ||
-  input.includes("wallet")
-) {
-
-  output.textContent += "\nFetching balance...";
-
-  setTimeout(() => {
-    output.textContent += "\nBalance loaded successfully ✅";
-    output.textContent += `\nBalance: ${document.getElementById("balanceAmount").textContent}\n`;
+const tempOutput = {
+  set textContent(value) {
+    output.textContent += value + "\n";
     output.scrollTop = output.scrollHeight;
-  }, 800);
+  }
+};
 
-  getBalance();
+processYendoIntent(input, tempOutput);
 
-} else if (input.includes("send")) {
-
-  output.textContent += "\nPreparing transaction...";
-
-  setTimeout(() => {
-    output.textContent += "\nAwaiting confirmation...";
-  }, 700);
-
-  setTimeout(() => {
-    output.textContent += "\nTransaction confirmed ✅\n";
-    output.scrollTop = output.scrollHeight;
-  }, 1500);
-
-} else if (
-  input.includes("tx") ||
-  input.includes("transaction") ||
-  input.includes("history") ||
-  input.includes("recent")
-) {
-
-  output.textContent += "\nFetching transactions...";
-
-  setTimeout(() => {
-    output.textContent += "\n5 recent transactions loaded ✅\n";
-    output.scrollTop = output.scrollHeight;
-  }, 800);
-
-} else {
-
-  output.textContent += "\nCommand not recognized ❌\n";
-
+inputEl.value = "";
 }
-  // auto-scroll terminal
-  output.scrollTop = output.scrollHeight;
 
-  // clear input
-  inputEl.value = "";
-}
 async function loadTransactionCount() {
 
   try {
@@ -304,6 +350,7 @@ async function loadTransactions() {
 // loadTransactionCount();
 // loadTransactions();
 async function signUp() {
+
   const email =
     document.getElementById("signupEmail").value;
 
@@ -311,7 +358,7 @@ async function signUp() {
     document.getElementById("signupPassword").value;
 
   const { data, error } =
-    await supabase.auth.signUp({
+    await supabaseClient.auth.signUp({
       email,
       password
     });
@@ -320,13 +367,17 @@ async function signUp() {
     document.getElementById("authMessage");
 
   if (error) {
+
     message.textContent =
       "❌ " + error.message;
+
     return;
+
   }
 
   message.textContent =
     "✅ Account created successfully";
+
 }
 function toggleLoginPassword() {
   const input = document.getElementById("loginPassword");
@@ -406,5 +457,19 @@ if (error) {
     alert("Wallet connection cancelled.");
 
   }
+
+}
+async function askYendoAI() {
+
+  const input =
+    document.getElementById("aiInput").value;
+
+  const response =
+    document.getElementById("aiResponse");
+
+  await processYendoIntent(
+    input,
+    response
+  );
 
 }

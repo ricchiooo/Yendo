@@ -108,14 +108,14 @@ async function sendSol() {
 }
 
 async function processYendoIntent(input, outputElement) {
-
+console.log("INPUT:", input);
   input = input.trim().toLowerCase();
 
   if (
     input.includes("balance") ||
     input.includes("how much sol") ||
-    input.includes("wallet")
-  ) {
+    input.includes("how much sol do i have")
+) {
 
     await getBalance();
 
@@ -193,10 +193,128 @@ Type <strong>'help'</strong> to see this menu again.
 
     return;
   }
+if (
+  input.includes("wallet address") ||
+  input.includes("my address")
+) {
+
+  const {
+    data: { user }
+  } = await supabaseClient.auth.getUser();
+
+  if (!user) {
+    outputElement.textContent =
+      "Please log in first.";
+    return;
+  }
+
+  const {
+    data: profile,
+    error
+  } = await supabaseClient
+    .from("profiles")
+    .select("wallet_address")
+    .eq("id", user.id)
+    .single();
+
+  if (
+    error ||
+    !profile?.wallet_address
+  ) {
+    outputElement.textContent =
+      "No wallet connected yet. Connect Phantom first.";
+    return;
+  }
+
+  outputElement.innerHTML = `
+    <strong>Your Wallet Address:</strong><br><br>
+    ${profile.wallet_address}
+  `;
+
+  return;
+
+}
+
+if (
+  input.includes("receive sol") ||
+  input.includes("how do i receive")
+) {
+
+  const {
+    data: { user }
+  } = await supabaseClient.auth.getUser();
+
+  const {
+    data: profile
+  } = await supabaseClient
+    .from("profiles")
+    .select("wallet_address")
+    .eq("id", user.id)
+    .single();
+
+  outputElement.innerHTML = `
+    <strong>How to Receive SOL</strong><br><br>
+
+    1. Copy your wallet address.<br>
+    2. Share it with the sender.<br>
+    3. Wait for the transaction to confirm.<br><br>
+
+    <strong>Your Address:</strong><br>
+    ${profile?.wallet_address ||
+      "No wallet connected."}
+  `;
+
+  return;
+
+}
+
+if (
+  input.includes("send sol") ||
+  input.includes("how do i send")
+) {
+
+  outputElement.innerHTML = `
+    <strong>How to Send SOL</strong><br><br>
+
+    1. Get the recipient's wallet address.<br>
+    2. Decide how much SOL you want to send.<br>
+    3. Use YENDO's send functionality.<br>
+    4. Review the details carefully.<br>
+    5. Confirm the transaction.<br><br>
+
+    Always verify wallet addresses before sending funds.
+  `;
+
+  return;
+
+}
+
+if (
+  input.includes("what can you do")
+) {
+
+  outputElement.innerHTML = `
+    <strong>YENDO AI Capabilities</strong><br><br>
+
+    • Check wallet balances<br>
+    • Show recent transactions<br>
+    • Display your wallet address<br>
+    • Explain how to send SOL<br>
+    • Explain how to receive SOL<br>
+    • Help connect Phantom Wallet<br>
+    • Answer YENDO questions<br><br>
+
+    More capabilities coming soon.
+  `;
+
+  return;
+
+}
 
   outputElement.textContent =
     "I don't understand that yet. Try asking for help.";
 }
+
 function runCommand() {
   const inputEl = document.getElementById("commandInput");
   const input = inputEl.value.trim().toLowerCase();
@@ -416,10 +534,6 @@ async function connectWallet() {
     const walletAddress =
       response.publicKey.toString();
 
-    document.getElementById(
-      "walletAddress"
-    ).textContent =
-      "Wallet: " + walletAddress;
 const {
   data: { user }
 } = await supabaseClient.auth.getUser();

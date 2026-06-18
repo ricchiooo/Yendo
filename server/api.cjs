@@ -30,7 +30,9 @@ app.get("/", (req, res) => {
 });
 
 // 4️⃣ Solana connection
-const connection = new Connection("https://api.devnet.solana.com");
+const connection = new Connection(
+  "https://api.mainnet-beta.solana.com"
+);
 
 // 5️⃣ Load wallet (ENV-based)
 let sender;

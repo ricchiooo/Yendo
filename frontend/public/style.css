@@ -342,3 +342,53 @@ button:hover {
     width: 100%;
   }
 }
+/* ================== YENDO RESPONSIVE LAYOUT ================== */
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* SOL Balance - Normal size */
+.sol-balance-card {
+  max-width: 280px;
+  padding: 20px;
+  flex-shrink: 0;
+}
+
+/* Make AI section take most of the space */
+.ai-card {
+  flex: 1;
+  min-height: 65vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Terminal / Response area */
+#aiResponse {
+  flex: 1;
+  min-height: 300px;
+  line-height: 1.6;
+  overflow-y: auto;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+  
+  .sol-balance-card {
+    max-width: 100%;
+  }
+  
+  .ai-card {
+    min-height: 55vh;
+  }
+}

@@ -392,3 +392,20 @@ button:hover {
     min-height: 55vh;
   }
 }
+#aiInput {
+  background: #0d1117;
+  color: white;
+  border: 1px solid #30363d;
+}
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.yendo-logo {
+  width: 280px;
+  max-width: 90%;
+  height: auto;
+}

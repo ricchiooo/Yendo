@@ -4,50 +4,60 @@ const API =
     : "https://yendo-cli-1.onrender.com";
 
 console.log("Supabase loaded:", supabase); 
-window.onload = getBalance;
-
-async function getBalance() {
-
-  const {
-    data: { user }
-  } = await supabaseClient.auth.getUser();
-
-  if (!user) {
-    console.log("No logged-in user.");
-    return;
-  }
-
-  const { data: profile, error } =
-    await supabaseClient
-      .from("profiles")
-      .select("wallet_address")
-      .eq("id", user.id)
-      .single();
-
-  if (error || !profile?.wallet_address) {
-    console.error(
-      "No wallet found:",
-      error
-    );
-
-    return;
-  }
-
-  const wallet =
-    profile.wallet_address;
-
-  const res =
-    await fetch(
-      `${API}/balance/${wallet}`
-    );
-
-  const data =
-    await res.json();
+window.onload = () => {
 
   document.getElementById(
     "balanceAmount"
   ).textContent =
-    data.balance + " SOL";
+    "Connect Wallet";
+
+  document.getElementById(
+    "usdValue"
+  ).textContent =
+    "$0.00";
+
+};
+let pendingAmount = null;
+let pendingRecipient = null;
+let monitoringActive = false;
+let lastKnownBalance = null;
+async function getBalance() {
+
+  if (!window.solana?.publicKey) {
+
+    document.getElementById(
+      "balanceAmount"
+    ).textContent =
+      "0 SOL";
+
+    document.getElementById(
+      "usdValue"
+    ).textContent =
+      "$0.00";
+
+    return;
+  }
+
+  const connection =
+  new solanaWeb3.Connection(
+    "https://solana-rpc.publicnode.com",
+    "processed"
+  );
+
+  const balance =
+    await connection.getBalance(
+      window.solana.publicKey
+    );
+
+  const solBalance =
+    balance /
+    solanaWeb3.LAMPORTS_PER_SOL;
+
+  document.getElementById(
+    "balanceAmount"
+  ).textContent =
+    solBalance.toFixed(6) +
+    " SOL";
 
   const solPrice = 150;
 
@@ -56,21 +66,67 @@ async function getBalance() {
   ).textContent =
     "$" +
     (
-      data.balance *
+      solBalance *
       solPrice
     ).toFixed(2);
 
-  const terminal =
+}
+
+async function startWalletMonitoring() {
+
+  monitoringActive = true;
+
+  await getBalance();
+
+  const currentBalance =
     document.getElementById(
-      "terminalOutput"
-    );
+      "balanceAmount"
+    ).textContent;
 
-  if (terminal) {
+  lastKnownBalance =
+    currentBalance;
 
-    terminal.textContent +=
-      `\nBalance: ${data.balance} SOL\n`;
+  setInterval(async () => {
 
-  }
+    if (!monitoringActive)
+      return;
+
+    await getBalance();
+
+    const newBalance =
+      document.getElementById(
+        "balanceAmount"
+      ).textContent;
+
+    if (
+      newBalance !==
+      lastKnownBalance
+    ) {
+
+      document.getElementById(
+        "aiResponse"
+      ).innerHTML =
+        `
+        <strong>
+        Balance Change Detected
+        </strong>
+
+        <br><br>
+
+        Old:
+        ${lastKnownBalance}
+
+        <br>
+
+        New:
+        ${newBalance}
+        `;
+
+      lastKnownBalance =
+        newBalance;
+    }
+
+  }, 10000);
 
 }
 async function sendSol() {
@@ -94,8 +150,7 @@ async function sendSol() {
       "Signature: " + data.signature + "\n\n" +
       "View on Explorer:\n" +
       "https://explorer.solana.com/tx/" +
-      data.signature +
-      "?cluster=devnet";
+      data.signature;
   } else {
     document.getElementById("sendResult").textContent =
       "Transaction failed ❌\n\n" + JSON.stringify(data, null, 2);
@@ -107,10 +162,209 @@ async function sendSol() {
   document.getElementById("amount").value = "";
 }
 
+async function executeSolTransfer(amount, recipient) {
+
+  try {
+
+    if (!window.solana?.isPhantom) {
+      alert("Please connect Phantom first.");
+      return;
+    }
+
+    const provider = window.solana;
+
+    const connection =
+  new solanaWeb3.Connection(
+    "https://solana-rpc.publicnode.com",
+    "processed"
+  );
+
+    const fromPubkey =
+      provider.publicKey;
+console.log(
+  "Sending from:",
+  fromPubkey.toString()
+);
+console.log(
+  "Sending from:",
+  provider.publicKey.toString()
+);
+console.log(
+  "Sending to:",
+  recipient
+);
+
+console.log(
+  "Amount:",
+  amount
+);
+    const toPubkey =
+      new solanaWeb3.PublicKey(
+        recipient
+      );
+
+    const transaction =
+  new solanaWeb3.Transaction().add(
+    solanaWeb3.SystemProgram.transfer({
+      fromPubkey,
+      toPubkey,
+      lamports: Math.floor(
+        Number(amount) *
+        solanaWeb3.LAMPORTS_PER_SOL
+      )
+    })
+  );
+  console.log(
+  "Lamports:",
+  Math.floor(
+    Number(amount) *
+    solanaWeb3.LAMPORTS_PER_SOL
+  )
+);
+      transaction.feePayer =
+  fromPubkey;
+
+const latestBlockhash =
+  await connection.getLatestBlockhash();
+
+transaction.recentBlockhash =
+  latestBlockhash.blockhash;
+  transaction.feePayer =
+  fromPubkey;
+console.log(
+  "Balance before send:",
+  await connection.getBalance(
+    fromPubkey
+  )
+);
+console.log(transaction);
+console.log(
+  "Fee payer:",
+  transaction.feePayer?.toString()
+);
+
+console.log(
+  "Recent blockhash:",
+  transaction.recentBlockhash
+);
+console.log(
+  "Instruction:",
+  transaction.instructions[0]
+);
+
+console.log(
+  "Lamports being sent:",
+  transaction.instructions[0].data
+);
+
+console.log(
+  "All instructions:",
+  transaction.instructions
+);
+console.log(
+  "Connected wallet:",
+  provider.publicKey.toString()
+);
+
+const balance =
+  await connection.getBalance(
+    provider.publicKey
+  );
+
+console.log(
+  "Mainnet balance:",
+  balance
+);
+const result =
+  await provider.signAndSendTransaction(
+    transaction
+  );
+const txStatus =
+  await connection.getSignatureStatuses([
+    result.signature
+  ]);
+
+const status =
+  txStatus.value[0];
+  if (
+  status &&
+  status.err
+) {
+  throw new Error(
+    JSON.stringify(status.err
+    )
+  );
+}
+  console.log(
+  "Transaction result:",
+  result
+);
+    await connection.confirmTransaction({
+  signature: result.signature,
+  blockhash: latestBlockhash.blockhash,
+  lastValidBlockHeight:
+    latestBlockhash.lastValidBlockHeight
+});
+
+    return {
+  success: true,
+  signature:
+    result.signature
+};
+
+  } catch (err) {
+
+    console.error(
+  "TRANSFER ERROR:",
+  err
+);
+
+    throw err;
+
+  }
+
+}
+
 async function processYendoIntent(input, outputElement) {
 console.log("INPUT:", input);
-  input = input.trim().toLowerCase();
+  const originalInput = input.trim();
 
+input = originalInput.toLowerCase();
+const sendMatch =
+  originalInput.match(
+    /(send|transfer|pay)\s+([\d.]+)\s*sol\s+to\s+([A-Za-z0-9]+)/i
+  );
+
+if (sendMatch) {
+
+  const amount =
+    sendMatch[2];
+
+  const recipient =
+    sendMatch[3];
+
+    pendingAmount = amount;
+pendingRecipient = recipient;
+  outputElement.innerHTML = `
+  <strong>Transaction Detected</strong><br><br>
+
+  Amount:
+  ${amount} SOL<br><br>
+
+  Recipient:
+  ${recipient}<br><br>
+
+  <button onclick="confirmTransaction()">
+    Confirm
+  </button>
+
+  <button onclick="cancelTransaction()">
+    Cancel
+  </button>
+`;
+
+  return;
+}
   if (
     input.includes("balance") ||
     input.includes("how much sol") ||
@@ -140,15 +394,30 @@ console.log("INPUT:", input);
     return;
   }
 
-  if (
-    input.includes("send")
-  ) {
+ if (
+  input.includes("send")
+) {
 
-    outputElement.textContent =
-      "To send SOL, go to the Send section, enter the recipient address and amount, then confirm the transaction.";
+  outputElement.innerHTML = `
+    <strong>Send SOL with YENDO AI</strong>
 
-    return;
-  }
+    <br><br>
+
+    Example:
+
+    <br>
+    Send 0.5 SOL to Fe8ek...
+
+    <br>
+    Transfer 1 SOL to 6YkKd...
+
+    <br><br>
+
+    YENDO will prepare the transaction and ask for confirmation through Phantom.
+  `;
+
+  return;
+}
 
   if (
     input.includes("phantom") ||
@@ -310,7 +579,30 @@ if (
   return;
 
 }
+if (
+  input.includes("monitor my wallet") ||
+  input.includes("monitor wallet") ||
+  input.includes("watch my wallet")
+) {
 
+  await startWalletMonitoring();
+
+  outputElement.innerHTML =
+    `
+    <strong>
+    Wallet Monitoring Started
+    </strong>
+
+    <br><br>
+
+    Current Balance:
+    ${document.getElementById(
+      "balanceAmount"
+    ).textContent}
+    `;
+
+  return;
+}
   outputElement.textContent =
     "I don't understand that yet. Try asking for help.";
 }
@@ -563,7 +855,14 @@ if (error) {
       "Connected wallet:",
       walletAddress
     );
-
+try {
+  await getBalance();
+} catch (err) {
+  console.error(
+    "Balance fetch failed:",
+    err
+  );
+}
   } catch (err) {
 
     console.error(err);
@@ -585,5 +884,80 @@ async function askYendoAI() {
     input,
     response
   );
+
+}
+async function confirmTransaction() {
+
+  try {
+
+    document.getElementById(
+      "aiResponse"
+    ).innerHTML =
+      "Opening Phantom...";
+
+    const signature =
+      await executeSolTransfer(
+        pendingAmount,
+        pendingRecipient
+      );
+
+    document.getElementById(
+      "aiResponse"
+    ).innerHTML = `
+      <strong>Transaction Sent ✅</strong>
+      <br><br>
+
+      Signature:
+      <br>
+      ${signature}
+
+      <br><br>
+
+      <a
+        href="https://explorer.solana.com/tx/${signature}"
+        target="_blank"
+      >
+        View Transaction
+      </a>
+    `;
+
+    await getBalance();
+
+  } catch (err) {
+
+  console.error(err);
+
+  let friendlyError =
+    "Transaction failed. Please try again.";
+
+  if (
+    JSON.stringify(err)
+      .includes("InsufficientFundsForRent")
+  ) {
+
+    friendlyError =
+      "Recipient wallet is not properly funded for this transaction.";
+
+  }
+
+  document.getElementById(
+    "aiResponse"
+  ).innerHTML = `
+    <strong>Transaction Failed ❌</strong>
+
+    <br><br>
+
+    ${friendlyError}
+  `;
+
+}
+}
+
+function cancelTransaction() {
+
+  document.getElementById(
+    "aiResponse"
+  ).innerHTML =
+    "Transaction cancelled.";
 
 }

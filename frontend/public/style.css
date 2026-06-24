@@ -515,3 +515,35 @@ button:hover {
 .yendo-logo span {
   color: #22ff88;
 }
+/* ================== MOBILE RESPONSIVE ================== */
+
+@media (max-width: 768px) {
+  .login-card {
+    margin: 20px 16px !important;
+    padding: 32px 24px !important;
+    width: 92% !important;
+    max-width: 92% !important;
+  }
+
+  .logo {
+    font-size: 38px !important;
+  }
+
+  h1 {
+    font-size: 26px !important;
+  }
+
+  input {
+    font-size: 16px !important;
+    padding: 14px 16px !important;
+  }
+
+  button {
+    padding: 15px !important;
+    font-size: 16px !important;
+  }
+
+  .links {
+    font-size: 15px !important;
+  }
+}

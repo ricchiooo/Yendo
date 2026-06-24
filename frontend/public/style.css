@@ -537,3 +537,29 @@ button:hover {
     font-size: 15px !important;
   }
 }
+/* ================== DASHBOARD MOBILE FIX ================== */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 12px !important;
+  }
+
+  .card {
+    margin-bottom: 16px !important;
+    padding: 20px !important;
+  }
+
+  .ai-card {
+    min-height: 60vh !important;
+  }
+
+  /* Make SOL Balance card wider on mobile */
+  .sol-balance-card {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  #aiResponse {
+    min-height: 250px !important;
+  }
+}

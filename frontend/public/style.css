@@ -409,3 +409,109 @@ button:hover {
   max-width: 90%;
   height: auto;
 }
+.login-card {
+  background: #111111;
+  border-radius: 16px;
+  padding: 40px 32px;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.logo {
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  margin-bottom: 8px;
+}
+
+.logo span {
+  color: #22ff88;
+}
+
+.password-container {
+  position: relative;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+}
+
+.links {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.links a {
+  color: #22ff88;
+  text-decoration: none;
+}
+/* ================== LOGIN PAGE STYLES ================== */
+
+.login-card {
+  background: #111111;
+  border-radius: 16px;
+  padding: 40px 32px;
+  width: 100%;
+  max-width: 380px;
+  margin: 40px auto;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.logo {
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+  color: white;
+}
+
+.logo span {
+  color: #22ff88;
+}
+
+.password-container {
+  position: relative;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  font-size: 18px;
+}
+
+.links {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.links a {
+  color: #22ff88;
+  text-decoration: none;
+}
+.yendo-logo {
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: white;
+}
+
+.yendo-logo span {
+  color: #22ff88;
+}

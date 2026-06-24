@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YENDO Signup</title>
+  <title>YENDO - Create Account</title>
 
   <link rel="stylesheet" href="/style.css">
 
@@ -13,42 +13,28 @@
 
 <body>
 
-  <h1>YENDO</h1>
+  <div class="login-card">
+    <div class="logo">Y<span>ENDO</span></div>
+    <h1>Create Account</h1>
+    <p>Welcome! Let's get you started.</p>
 
-  <h2>Create Account</h2>
+    <input type="email" id="signupEmail" placeholder="Email" required>
+    
+    <div class="password-container">
+      <input type="password" id="signupPassword" placeholder="Password" required>
+      <span class="eye-icon" onclick="toggleSignupPassword()">👁</span>
+    </div>
 
-  <input
-    type="email"
-    id="signupEmail"
-    placeholder="Email"
-  >
+    <button onclick="signUp()">Create Account</button>
 
-  <br><br>
+    <div class="links">
+      <a href="index.html">Already have an account? Login</a>
+    </div>
 
-  <input
-  type="password"
-  id="signupPassword"
-  placeholder="Password"
->
+    <p id="authMessage"></p>
+  </div>
 
-<button type="button" onclick="toggleSignupPassword()">
-  👁
-</button>
-
-  <br><br>
-
-  <button onclick="signUp()">
-    Create Account
-  </button>
-
-  <br><br>
-
-  <a href="index.html">
-    Already have an account? Login
-  </a>
-
-  <p id="authMessage"></p>
   <script src="app.js"></script>
-<script src="auth.js"></script>
+  <script src="auth.js"></script>
 </body>
 </html>

@@ -455,9 +455,9 @@ button:hover {
   color: #22ff88;
   text-decoration: none;
 }
-/* ================== LOGIN PAGE STYLES ================== */
+/* ================== BASE STYLES ================== */
 
-.login-card {
+.login-card, .signup-card {
   background: #111111;
   border-radius: 16px;
   padding: 40px 32px;
@@ -468,7 +468,7 @@ button:hover {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.logo {
+.logo, .yendo-logo {
   font-size: 48px;
   font-weight: 800;
   letter-spacing: -2px;
@@ -476,7 +476,7 @@ button:hover {
   color: white;
 }
 
-.logo span {
+.logo span, .yendo-logo span {
   color: #22ff88;
 }
 
@@ -505,28 +505,18 @@ button:hover {
   color: #22ff88;
   text-decoration: none;
 }
-.yendo-logo {
-  font-size: 38px;
-  font-weight: 800;
-  letter-spacing: -1px;
-  color: white;
-}
 
-.yendo-logo span {
-  color: #22ff88;
-}
 /* ================== MOBILE RESPONSIVE ================== */
 
 @media (max-width: 768px) {
-  .login-card {
+  .login-card, .signup-card {
     margin: 20px 16px !important;
     padding: 32px 24px !important;
-    width: 92% !important;
     max-width: 92% !important;
   }
 
-  .logo {
-    font-size: 38px !important;
+  .logo, .yendo-logo {
+    font-size: 36px !important;
   }
 
   h1 {
@@ -539,34 +529,11 @@ button:hover {
   }
 
   button {
-    padding: 15px !important;
-    font-size: 16px !important;
+    padding: 16px !important;
+    font-size: 17px !important;
   }
 
   .links {
     font-size: 15px !important;
-  }
-}
-/* MOBILE RESPONSIVE - FORCE APPLY */
-@media (max-width: 768px) {
-  .login-card, .signup-card {
-    margin: 20px 16px !important;
-    padding: 32px 24px !important;
-    width: 92% !important;
-    max-width: 92% !important;
-  }
-
-  .logo {
-    font-size: 36px !important;
-  }
-
-  input {
-    font-size: 16px !important;
-    padding: 14px 16px !important;
-  }
-
-  button {
-    padding: 16px !important;
-    font-size: 17px !important;
   }
 }

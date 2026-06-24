@@ -547,3 +547,26 @@ button:hover {
     font-size: 15px !important;
   }
 }
+/* MOBILE RESPONSIVE - FORCE APPLY */
+@media (max-width: 768px) {
+  .login-card, .signup-card {
+    margin: 20px 16px !important;
+    padding: 32px 24px !important;
+    width: 92% !important;
+    max-width: 92% !important;
+  }
+
+  .logo {
+    font-size: 36px !important;
+  }
+
+  input {
+    font-size: 16px !important;
+    padding: 14px 16px !important;
+  }
+
+  button {
+    padding: 16px !important;
+    font-size: 17px !important;
+  }
+}

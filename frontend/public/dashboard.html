@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YENDO</title>
   
   <link rel="stylesheet" href="style.css" />
@@ -9,65 +10,39 @@
 <body>
   <header>
     <div class="yendo-logo">
-  Y<span>ENDO</span>
-</div>
+      Y<span>ENDO</span>
+    </div>
     <nav>
-      <button onclick="connectWallet()">
-  Connect Phantom Wallet
-</button>
-
-      <button onclick="logout()">
-  Logout
-</button>
+      <button onclick="connectWallet()">Connect Phantom Wallet</button>
+      <button onclick="logout()">Logout</button>
     </nav>
   </header>
 
   <div class="container">
-    <div class="card">
+    <!-- SOL Balance Card - Reasonable Size -->
+    <div class="card sol-balance-card">
       <h3>SOL Balance</h3>
-      <p id="balanceAmount">-- SOL</p>
-      <p id="usdValue">$0.00</p>
+      <p id="balanceAmount" class="portfolio-value">-- SOL</p>
+      <p id="usdValue" class="usd-value">$0.00</p>
     </div>
+
+    <!-- YENDO AI - Takes most of the space -->
     <div class="card ai-card">
+      <h2>YENDO AI</h2>
+      <p>Ask YENDO anything about your wallet, transactions, or Solana.</p>
 
-  <h2>YENDO AI</h2>
+      <textarea id="aiInput" placeholder="Ask YENDO anything..."></textarea>
 
-<p>
-  Ask YENDO anything about your wallet,
-  transactions, or Solana.
-</p>
+      <button onclick="askYendoAI()">Ask YENDO</button>
 
-<textarea
-  id="aiInput"
-  placeholder="Ask YENDO anything..."
-></textarea>
-
-<button onclick="askYendoAI()">
-  Ask YENDO
-</button>
-
-<div id="aiResponse"></div>
-</div>
-
-  <!-- Main Content -->
-  <div class="main">
-
-  <!-- Top Cards Row -->
-  <div class="cards">
-
+      <div id="aiResponse"></div>
+    </div>
   </div>
 
-  <!-- Bottom Section -->
-  <div class="bottom">
-
-
-  </div>
-
-</div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
-<script src="supabase.js"></script>
-<script src="app.js"></script>
-<script src="auth.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+  <script src="supabase.js"></script>
+  <script src="app.js"></script>
+  <script src="auth.js"></script>
 </body>
 </html>

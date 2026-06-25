@@ -563,3 +563,39 @@ button:hover {
     min-height: 250px !important;
   }
 }
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.card {
+  background: #111;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.sol-balance-card {
+  max-width: 280px;
+}
+
+.ai-card {
+  flex: 1;
+  min-height: 60vh;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+  .sol-balance-card {
+    max-width: 100%;
+  }
+  .ai-card {
+    min-height: 55vh;
+  }
+}

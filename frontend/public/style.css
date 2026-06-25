@@ -599,3 +599,77 @@ button:hover {
     min-height: 55vh;
   }
 }
+/* ================== MODERN AI TERMINAL ================== */
+
+.ai-card {
+  background: #0f0f0f;
+  border-radius: 16px;
+  padding: 24px;
+  min-height: 65vh;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #222;
+}
+
+.ai-card h2 {
+  color: #22ff88;
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.ai-card p {
+  color: #aaa;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* Input Area */
+#aiInput {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 16px 20px;
+  color: white;
+  font-size: 16px;
+  min-height: 60px;
+  resize: none;
+  margin-bottom: 12px;
+}
+
+#aiInput:focus {
+  outline: none;
+  border-color: #22ff88;
+  box-shadow: 0 0 0 3px rgba(34, 255, 136, 0.1);
+}
+
+/* Ask Button */
+button[onclick="askYendoAI"] {
+  background: #22ff88;
+  color: black;
+  font-weight: 600;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+
+button[onclick="askYendoAI"]:hover {
+  background: #1aff77;
+  transform: translateY(-1px);
+}
+
+/* Response Area */
+#aiResponse {
+  flex: 1;
+  background: #151515;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 16px;
+  line-height: 1.7;
+  color: #ddd;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  border: 1px solid #222;
+}

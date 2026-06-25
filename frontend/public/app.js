@@ -813,64 +813,51 @@ function toggleSignupPassword() {
   }
 }
 async function connectWallet() {
-
+  // Check if Phantom is available
   if (!window.solana || !window.solana.isPhantom) {
-    alert("Phantom Wallet is not installed.");
+    alert("Phantom Wallet is not installed.\n\nPlease install Phantom from the app store and try again.");
+    
+    // Optional: Open Phantom download page
+    window.open("https://phantom.app/download", "_blank");
     return;
   }
 
   try {
-
     const response = await window.solana.connect();
+    const walletAddress = response.publicKey.toString();
 
-    const walletAddress =
-      response.publicKey.toString();
+    console.log("Connected wallet:", walletAddress);
 
-const {
-  data: { user }
-} = await supabaseClient.auth.getUser();
+    // Update UI
+    document.getElementById('balanceAmount').textContent = "Connected";
 
-if (user) {
+    // Save to Supabase (your existing logic)
+    const { data: { user } } = await supabaseClient.auth.getUser();
 
-  const { error } = await supabaseClient
-  .from("profiles")
-  .update({
-    wallet_address: walletAddress
-  })
-  .eq("id", user.id);
+    if (user) {
+      const { error } = await supabaseClient
+        .from("profiles")
+        .update({ wallet_address: walletAddress })
+        .eq("id", user.id);
 
-console.log("Update error:", error);
+      if (error) {
+        console.error("Wallet save error:", error);
+      } else {
+        console.log("Wallet saved successfully!");
+      }
+    }
 
-if (error) {
-  alert(
-    "WALLET SAVE ERROR: " +
-    JSON.stringify(error)
-  );
-} else {
-  alert("Wallet saved successfully!");
-}
+    // Fetch balance
+    try {
+      await getBalance();
+    } catch (err) {
+      console.error("Balance fetch failed:", err);
+    }
 
-}
-    console.log(
-      "Connected wallet:",
-      walletAddress
-    );
-try {
-  await getBalance();
-} catch (err) {
-  console.error(
-    "Balance fetch failed:",
-    err
-  );
-}
   } catch (err) {
-
     console.error(err);
-
-    alert("Wallet connection cancelled.");
-
+    alert("Wallet connection was cancelled or failed.");
   }
-
 }
 async function askYendoAI() {
 

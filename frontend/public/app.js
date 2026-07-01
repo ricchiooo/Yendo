@@ -343,28 +343,27 @@ if (sendMatch) {
   const recipient =
     sendMatch[3];
 
-    pendingAmount = amount;
+   pendingAmount = amount;
 pendingRecipient = recipient;
-  outputElement.innerHTML = `
+
+outputElement.innerHTML = `
   <strong>Transaction Detected</strong><br><br>
 
-  Amount:
-  ${amount} SOL<br><br>
+  <strong>Amount:</strong> ${amount} SOL<br><br>
+  <strong>Recipient:</strong> ${recipient}<br><br>
 
-  Recipient:
-  ${recipient}<br><br>
-
-  <button onclick="confirmTransaction()">
-    Confirm
-  </button>
-
-  <button onclick="cancelTransaction()">
-    Cancel
-  </button>
+  <div style="display: flex; gap: 12px; margin-top: 20px;">
+    <button onclick="confirmTransaction()" 
+            style="flex: 1; padding: 14px; background: #22ff88; color: black; border: none; border-radius: 12px; font-weight: bold;">
+      Confirm
+    </button>
+    
+    <button onclick="cancelTransaction()" 
+            style="flex: 1; padding: 14px; background: #ff4444; color: white; border: none; border-radius: 12px; font-weight: bold;">
+      Cancel
+    </button>
+  </div>
 `;
-
-  return;
-}
   if (
     input.includes("balance") ||
     input.includes("how much sol") ||

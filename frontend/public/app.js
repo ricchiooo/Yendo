@@ -343,24 +343,28 @@ if (sendMatch) {
   const recipient =
     sendMatch[3];
 
-    pendingAmount = amount;
-pendingRecipient = recipient;
-  outputElement.innerHTML = `
-  <strong>Transaction Detected</strong><br><br>
+    outputElement.innerHTML = `
+  <strong>Transaction Request</strong><br><br>
 
-  Amount:
-  ${amount} SOL<br><br>
+  <div class="transaction-info">
+    <p><strong>Amount</strong></p>
+    <p>${amount} SOL</p>
 
-  Recipient:
-  ${recipient}<br><br>
+    <br>
 
-  <button onclick="confirmTransaction()">
-    Confirm
-  </button>
+    <p><strong>Recipient</strong></p>
+    <p class="wallet-address">${recipient}</p>
+  </div>
 
-  <button onclick="cancelTransaction()">
-    Cancel
-  </button>
+  <div class="transaction-buttons">
+    <button class="confirm-btn" onclick="confirmTransaction()">
+      Confirm
+    </button>
+
+    <button class="cancel-btn" onclick="cancelTransaction()">
+      Cancel
+    </button>
+  </div>
 `;
 
   return;

@@ -6,7 +6,7 @@
   <title>YENDO Login</title>
 
   <link rel="stylesheet" href="style.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="/public/supabase.js"></script>
 </head>
@@ -22,7 +22,9 @@
     
     <div class="password-container">
       <input type="password" id="loginPassword" placeholder="Password" required>
-      <span class="eye-icon" onclick="toggleLoginPassword()">👁</span>
+      <span class="eye-icon" onclick="toggleLoginPassword()">
+  <i class="fa-solid fa-eye"></i>
+</span>
     </div>
 
     <button onclick="login()">Login</button>

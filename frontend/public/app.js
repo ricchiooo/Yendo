@@ -788,13 +788,14 @@ async function signUp() {
 }
 function toggleLoginPassword() {
   const input = document.getElementById("loginPassword");
-
-  if (!input) return;
+  const icon = document.querySelector(".eye-icon i");
 
   if (input.type === "password") {
     input.type = "text";
+    icon.className = "bi bi-eye-slash";
   } else {
     input.type = "password";
+    icon.className = "bi bi-eye";
   }
 }
 

@@ -305,12 +305,6 @@ const status =
   "Transaction result:",
   result
 );
-    await connection.confirmTransaction({
-  signature: result.signature,
-  blockhash: latestBlockhash.blockhash,
-  lastValidBlockHeight:
-    latestBlockhash.lastValidBlockHeight
-});
 
     return {
   success: true,
@@ -881,17 +875,19 @@ async function confirmTransaction() {
   try {
 
     document.getElementById(
-      "aiResponse"
-    ).innerHTML =
-      "Opening Phantom...";
-
+"aiResponse"
+).innerHTML =
+"Communicating with wallet...";
+console.log("STEP 1: Starting executeSolTransfer...");
     const result =
   await executeSolTransfer(
     pendingAmount,
     pendingRecipient
   );
+console.log("STEP 2: executeSolTransfer finished.");
 
 const signature = result.signature;
+console.log("STEP 3: Signature:", signature);
 const {
   data: { session }
 } = await supabaseClient.auth.getSession();
@@ -922,6 +918,7 @@ if (session) {
 }
 
 }
+console.log("STEP 4: Updating success UI...");
     document.getElementById(
       "aiResponse"
     ).innerHTML = `
@@ -943,6 +940,8 @@ if (session) {
     `;
 
     await getBalance();
+    console.log("STEP 5: Balance refreshed.");
+
 
   } catch (err) {
 

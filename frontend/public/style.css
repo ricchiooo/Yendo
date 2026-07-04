@@ -673,45 +673,48 @@ button[onclick="askYendoAI"]:hover {
   white-space: pre-wrap;
   border: 1px solid #222;
 }
-.transaction-buttons {
+/* ================== TRANSACTION CONFIRMATION ================== */
+
+.transaction-confirmation {
+  background: #111111;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 16px 0;
+}
+
+.transaction-confirmation strong {
+  color: #22ff88;
+}
+
+.transaction-confirmation p {
+  margin: 12px 0;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+/* Buttons */
+.confirm-buttons {
   display: flex;
   gap: 12px;
   margin-top: 24px;
 }
 
-.transaction-buttons button {
+.confirm-buttons button {
   flex: 1;
-  height: 52px;
-  border-radius: 12px;
+  padding: 16px;
   font-size: 16px;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.confirm-btn {
-  background: linear-gradient(90deg, #00ff99, #00cc66);
-  color: #fff;
+  border-radius: 12px;
   border: none;
+  cursor: pointer;
 }
 
-.confirm-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,255,153,0.3);
+.confirm-buttons .confirm-btn {
+  background: #22ff88;
+  color: black;
 }
 
-.cancel-btn {
-  background: transparent;
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.2);
-}
-
-.cancel-btn:hover {
-  background: rgba(255,255,255,0.08);
-}
-
-.wallet-address {
-  word-break: break-all;
-  color: #bfbfbf;
-  font-size: 15px;
+.confirm-buttons .cancel-btn {
+  background: #ff4444;
+  color: white;
 }

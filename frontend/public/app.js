@@ -59,7 +59,13 @@ async function getBalance() {
     solBalance.toFixed(6) +
     " SOL";
 
-  const solPrice = 150;
+  const response = await fetch(
+  "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd"
+);
+
+const priceData = await response.json();
+
+const solPrice = priceData.solana.usd;
 
   document.getElementById(
     "usdValue"
@@ -343,27 +349,20 @@ if (sendMatch) {
   const recipient =
     sendMatch[3];
 
-    outputElement.innerHTML = `
-  <strong>Transaction Request</strong><br><br>
+    pendingAmount = amount;
+pendingRecipient = recipient;
+  outputElement.innerHTML = `
+  <div class="transaction-confirmation">
+    <strong>Transaction Detected</strong><br><br>
+    
+    <strong>Amount:</strong> ${amount} SOL<br><br>
+    <strong>Recipient:</strong><br>
+    ${recipient}<br><br>
 
-  <div class="transaction-info">
-    <p><strong>Amount</strong></p>
-    <p>${amount} SOL</p>
-
-    <br>
-
-    <p><strong>Recipient</strong></p>
-    <p class="wallet-address">${recipient}</p>
-  </div>
-
-  <div class="transaction-buttons">
-    <button class="confirm-btn" onclick="confirmTransaction()">
-      Confirm
-    </button>
-
-    <button class="cancel-btn" onclick="cancelTransaction()">
-      Cancel
-    </button>
+    <div class="confirm-buttons">
+      <button onclick="confirmTransaction()" class="confirm-btn">Confirm</button>
+      <button onclick="cancelTransaction()" class="cancel-btn">Cancel</button>
+    </div>
   </div>
 `;
 
@@ -886,12 +885,43 @@ async function confirmTransaction() {
     ).innerHTML =
       "Opening Phantom...";
 
-    const signature =
-      await executeSolTransfer(
-        pendingAmount,
-        pendingRecipient
-      );
+    const result =
+  await executeSolTransfer(
+    pendingAmount,
+    pendingRecipient
+  );
 
+const signature = result.signature;
+const {
+  data: { session }
+} = await supabaseClient.auth.getSession();
+
+if (session) {
+
+  const { error: dbError } =
+    await supabaseClient
+      .from("transactions")
+      .insert([
+        {
+          user_id: session.user.id,
+          wallet_address: session.user.user_metadata?.wallet_address || window.solana.publicKey.toString(),
+          type: "send",
+          token: "SOL",
+          amount: pendingAmount,
+          signature: signature,
+          status: "confirmed"
+        }
+      ]);
+
+  if (dbError) {
+  console.error("Supabase transaction log failed:");
+  console.error("Code:", dbError.code);
+  console.error("Message:", dbError.message);
+  console.error("Details:", dbError.details);
+  console.error("Hint:", dbError.hint);
+}
+
+}
     document.getElementById(
       "aiResponse"
     ).innerHTML = `

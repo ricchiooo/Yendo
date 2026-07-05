@@ -29,11 +29,15 @@ Example Commands
 
 YENDO understands plain English.
 Examples:
-Send 0.05 SOL to Fx...
-Send 0.003 SOL to 6Yk...
-What's my balance?
-What can you do?
-Show my wallet address
+.Send 0.05 SOL to Fx...
+
+.Send 0.003 SOL to 6Yk...
+
+.What's my balance?
+
+.What can you do?
+
+.Show my wallet address
 
 No complicated CLI commands.
 

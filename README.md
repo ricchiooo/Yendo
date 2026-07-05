@@ -91,15 +91,19 @@ https://www.loom.com/share/d4a0c0708eb74ca390124865d627924d
 
 Current Architecture
 User
+
      │
      ▼
 YENDO Frontend (Vercel)
+
      │
      ▼
 YENDO Backend (Render)
+
      │
      ▼
 Solana Mainnet RPC
+
      │
      ▼
 Phantom Wallet

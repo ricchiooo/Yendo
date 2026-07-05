@@ -1,5 +1,5 @@
 # YENDO
-CLI automation tool for interacting with Solana wallets, balances, and on-chain actions.
+AI automation tool for interacting with Solana wallets, balances, and on-chain actions.
 **Automation layer for Solana wallets**  
 
 YENDO is a Solana-based automation and wallet monitoring tool that allows users to **connect wallets, track balances, and trigger automated actions** based on on-chain conditions. Built as a CLI-first tool, YENDO is designed to **make Solana wallet management intuitive, automated, and scalable** for both individual users and developers.

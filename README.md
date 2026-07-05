@@ -1,148 +1,209 @@
 # YENDO
-AI automation tool for interacting with Solana wallets, balances, and on-chain actions.
-**Automation layer for Solana wallets**  
+AI-powered infrastructure for interacting with the Solana blockchain.
 
-YENDO is a Solana-based automation and wallet monitoring tool that allows users to **connect wallets, track balances, and trigger automated actions** based on on-chain conditions. Built as a CLI-first tool, YENDO is designed to **make Solana wallet management intuitive, automated, and scalable** for both individual users and developers.
+YENDO is a Solana-powered application that enables users to seamlessly interact with the blockchain—managing wallets, sending and receiving assets, executing transactions, and automating on-chain actions through an intuitive interface.
 
----
+It evolves beyond basic functionality by integrating smart automation and AI-driven recommendations, allowing users to navigate and operate within the crypto ecosystem more efficiently.
 
-## 🚀 Current Features
+⸻
 
-YENDO’s backend is fully functional and testable. Current capabilities include:
+Current Version (MVP)
 
-- **Wallet connection** – Connect any Solana wallet and verify ownership.  
-- **Real-time SOL balance monitoring** – Fetch live balances from the blockchain.  
-- **CLI command engine** – Run commands directly in the terminal for instant actions.  
-- **Token transfer** – Send SOL or SPL tokens to other wallets.  
-- **NFT interaction** – Check NFT ownership and transfers.  
-- **Solana RPC integration** – Communicate with the Solana blockchain efficiently.
+The current public build focuses on validating YENDO’s core wallet infrastructure.
 
----
+Users can:
+	•	Securely create an account
+	•	Authenticate using Supabase
+	•	Connect a Phantom wallet
+	•	View live SOL balance
+	•	Send SOL directly through YENDO AI using natural language
+	•	Approve transactions securely through Phantom
+	•	View transaction signatures
+	•	Open transactions in Solana Explorer
+	•	Automatically refresh balances after successful transactions
+	•	Store user profiles and wallet connections
 
-## 💻 Demo Instructions
+⸻
 
-You can run YENDO locally to test its current functionality:
+Example Commands
 
-1. Clone the repo:  
-```bash
-git clone https://github.com/ricchiooo/yendo-cli.git
-cd yendo-cli
+YENDO understands plain English.
+Examples:
+Send 0.05 SOL to Fx...
+Send 0.003 SOL to 6Yk...
+What's my balance?
+What can you do?
+Show my wallet address
 
-## Installation
+No complicated CLI commands.
 
-Install dependencies:
+Just type naturally.
 
-npm install
+⸻
 
-## Usage
+Tech Stack
 
-You can use YENDO's CLI to interact with Solana wallets directly from the terminal.
+Frontend
+	•	HTML
+	•	CSS
+	•	JavaScript
 
-### Check Wallet Balance
+Backend
+	•	Node.js
+	•	Express
 
-Run the following command to check the SOL balance of a wallet:
+Blockchain
+	•	Solana Web3.js
+	•	Phantom Wallet
+	•	Solana Mainnet
 
-```bash
-node src/index.js balance 3Ve645zXw5ZuS6asgJGrH5geKNwhHwEhxb446PqtbckZ
-```
+Database
+	•	Supabase Authentication
+	•	Supabase PostgreSQL
 
-Example output:
+Deployment
+	•	Vercel
+	•	Render
 
-```
-Wallet: 3Ve645zXw5ZuS6asgJGrH5geKNwhHwEhxb446PqtbckZ
-Network: Devnet
-Balance: 0.00 SOL
-Status: Connected
-```
+⸻
 
-### Transfer SOL
+Live Demo
 
-Run the following command to send SOL from one wallet to another (recommended on devnet/testnet):
+Application
 
-```bash
-node src/index.js transfer 3Ve645zXw5ZuS6asgJGrH5geKNwhHwEhxb446PqtbckZ CryX4FRYdYB4SyUZ3qyxBKG3g68mFG6qZrbzha38Piwc 0.1
-```
+https://yendo-cli.vercel.app
 
-Where:
+Backend API
 
-- `3Ve645zXw5ZuS6asgJGrH5geKNwhHwEhxb446PqtbckZ` → sender wallet  
-- `CryX4FRYdYB4SyUZ3qyxBKG3g68mFG6qrbzha38Piwc` → receiver wallet  
-- `0.1` → amount of SOL to transfer
+https://yendo-cli-1.onrender.com
 
-Example output:
+⸻
 
-```
-Transaction submitted successfully
+Demo Video
 
-Sender: 3Ve645zXw5ZuS6asgJGrH5geKNwhHwEhxb446PqtbckZ
-Receiver: CryX4FRYdYB4SyUZ3qyxBKG3g68mFG6qZrbzha38Piwc
-Amount: 0.1 SOL
-Network: Devnet
-Status: Confirmed
-```
-
-### Generic Command Format
-
-You can also run the commands using placeholders:
-
-```bash
-node src/index.js balance <wallet-address>
-```
-
-```bash
-node src/index.js transfer <sender-wallet> <receiver-wallet> <amount>
-```
-
-Replace the placeholders with real wallet addresses and the desired transfer amount.
-## Demo Page
-
-The demo page is located in:
-
-frontend/public/index.html
-
-Open this file in a browser to interact with a simple interface that connects to YENDO's CLI commands.
-
-## Tech Stack
-
-• Node.js  
-• JavaScript (CommonJS)  
-• Solana Web3.js  
-• Commander.js (CLI command parsing)  
-• Dotenv (environment variables)
-
-## Future Roadmap
-
-YENDO is currently under active development. Planned features include:
-
-• Web interface for wallet monitoring  
-• Automated wallet triggers based on on-chain events  
-• AI-powered wallet insights and analytics  
-• NFT dashboard for asset tracking  
-• Integration with Solana ecosystem grants and bounties
-
-## Links
-
-Website /Project Demo - https://yendo-cli-1.onrender.com
 https://www.loom.com/share/d4a0c0708eb74ca390124865d627924d
 
-Twitter/X - https://x.com/ricchioo
+⸻
 
-GitHub Repository- https://github.com/ricchiooo/yendo-cli
+Current Architecture
+User
+     │
+     ▼
+YENDO Frontend (Vercel)
+     │
+     ▼
+YENDO Backend (Render)
+     │
+     ▼
+Solana Mainnet RPC
+     │
+     ▼
+Phantom Wallet
 
-Discord  - https://discord.gg/m7FJRw5c
+Roadmap
 
-## How to Contribute
+The current version is only the foundation.
 
-1. Fork the repository  
-2. Create a branch for your feature  
-   git checkout -b feature-name  
-3. Commit your changes  
-   git commit -m "Add feature"  
-4. Push to the branch  
-   git push origin feature-name  
-5. Open a Pull Request
+YENDO’s long-term vision includes:
 
-## License
+AI Wallet Assistant
+	•	Portfolio analysis
+	•	Transaction explanations
+	•	Spending insights
+	•	Smart recommendations
 
-This project is licensed under the ISC License.
+Wallet Automation
+	•	Scheduled transfers
+	•	Automated recurring payments
+	•	Smart triggers
+	•	On-chain workflows
 
+Multi-Asset Support
+	•	SPL Tokens
+	•	NFTs
+	•	Stablecoins
+	•	DeFi positions
+
+Portfolio Dashboard
+	•	Asset tracking
+	•	Performance analytics
+	•	Historical charts
+	•	Transaction insights
+
+DeFi Integrations
+	•	Staking
+	•	Lending
+	•	Swaps
+	•	Yield optimization
+
+AI Agent Layer
+
+Eventually, YENDO will become an intelligent blockchain operating system where users can simply describe what they want in natural language while AI handles the blockchain interactions.
+
+⸻
+
+Current Status
+
+✅ Authentication
+
+✅ Wallet Connection
+
+✅ Mainnet SOL Transfers
+
+✅ Natural Language Commands
+
+✅ Transaction Confirmation
+
+✅ Balance Refresh
+
+🚧 AI Automation Layer
+
+🚧 SPL Tokens
+
+🚧 NFT Support
+
+🚧 Portfolio Analytics
+
+🚧 Wallet Automation
+
+⸻
+
+Repository
+
+https://github.com/ricchiooo/yendo-cli
+
+⸻
+
+Connect
+
+Twitter/X
+
+https://x.com/ricchioo
+
+Discord
+
+https://discord.gg/m7FJRw5c
+
+⸻
+
+Contributing
+
+Contributions are welcome.
+	1.	Fork the repository
+
+	2.	Create a feature branch
+git checkout -b feature-name
+
+3.	Commit your changes
+git commit -m "Add feature"
+
+4.	Push
+git push origin feature-name
+
+5.	Open a Pull Request
+
+⸻
+
+License
+
+ISC License

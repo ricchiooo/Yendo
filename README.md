@@ -197,9 +197,10 @@ https://discord.gg/m7FJRw5c
 Contributing
 
 Contributions are welcome.
-	1.	Fork the repository
 
-	2.	Create a feature branch
+1.	Fork the repository
+
+2.	Create a feature branch
 git checkout -b feature-name
 
 3.	Commit your changes

@@ -718,39 +718,35 @@ button[onclick="askYendoAI"]:hover {
   background: #ff4444;
   color: white;
 }
-header nav {
-  display: flex;
-  gap: 12px;           /* space between buttons */
-  align-items: center;
+#disconnectWalletBtn{
+    background:#dc3545;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:6px;
+    cursor:pointer;
 }
 
+#disconnectWalletBtn:hover{
+    background:#b52b38;
+}
 header nav button {
-  width: 170px;        /* same width */
-  height: 46px;        /* slightly taller for better look */
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s;
+    width: 170px;      /* Same width for all buttons */
+    height: 42px;      /* Same height */
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
 }
-
-/* Connect Wallet - Green */
-#connectWalletBtn {
-  background: #22c55e;
-  color: white;
-}
-
-#connectWalletBtn:hover {
-  background: #16a34a;
-}
-
-/* Disconnect Wallet - Red */
 #disconnectWalletBtn {
-  background: #dc3545;
-  color: white;
+    width: 200px;
+}
+.logout-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 25px;
 }
 
-#disconnectWalletBtn:hover {
-  background: #b52b38;
+.logout-btn {
+  width: 220px; /* same width as the wallet buttons */
 }

@@ -9,19 +9,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YENDO</title>
+  <title>XZENDO</title>
   
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <div class="yendo-logo">
-      Y<span>ENDO</span>
+      XZ<span>ENDO</span>
     </div>
     <nav>
-      <button onclick="connectWallet()">Connect Phantom Wallet</button>
-      <button onclick="logout()">Logout</button>
-    </nav>
+  <button onclick="connectWallet()">Connect Wallet</button>
+
+  <button id="disconnectWalletBtn" onclick="disconnectWallet()">
+    Disconnect Wallet
+  </button>
+</nav>
   </header>
 
   <div class="container">
@@ -34,16 +37,21 @@
 
     <!-- YENDO AI - Takes most of the space -->
     <div class="card ai-card">
-      <h2>YENDO AI</h2>
-      <p>Ask YENDO anything about your wallet, transactions, or Solana.</p>
+      <h2>XZENDO AI</h2>
+      <p>Ask XZENDO anything about your wallet, transactions, or Solana.</p>
 
-      <textarea id="aiInput" placeholder="Ask YENDO anything..."></textarea>
+      <textarea id="aiInput" placeholder="Ask XZENDO anything..."></textarea>
 
-      <button onclick="askYendoAI()">Ask YENDO</button>
+      <button onclick="askXZendoAI()">Ask XZENDO</button>
 
       <div id="aiResponse"></div>
     </div>
   </div>
+  <!-- Logout Button -->
+    <div class="logout-section">
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>

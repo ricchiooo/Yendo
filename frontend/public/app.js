@@ -396,7 +396,7 @@ pendingRecipient = recipient;
 ) {
 
   outputElement.innerHTML = `
-    <strong>Send SOL with YENDO AI</strong>
+    <strong>Send SOL with XZENDO AI</strong>
 
     <br><br>
 
@@ -410,7 +410,7 @@ pendingRecipient = recipient;
 
     <br><br>
 
-    YENDO will prepare the transaction and ask for confirmation through Phantom.
+    XZENDO will prepare the transaction and ask for confirmation through Phantom.
   `;
 
   return;
@@ -433,7 +433,7 @@ pendingRecipient = recipient;
   ) {
 
     outputElement.innerHTML = `
-<strong>YENDO AI Commands</strong><br><br>
+<strong>XZENDO AI Commands</strong><br><br>
 
 Just type in plain English:<br><br>
 
@@ -455,7 +455,7 @@ Type <strong>'help'</strong> to see this menu again.
   ) {
 
     outputElement.textContent =
-      "I'm YENDO AI, your Solana wallet assistant.";
+      "I'm XZENDO AI, your Solana wallet assistant.";
 
     return;
   }
@@ -560,7 +560,7 @@ if (
 ) {
 
   outputElement.innerHTML = `
-    <strong>YENDO AI Capabilities</strong><br><br>
+    <strong>XZENDO AI Capabilities</strong><br><br>
 
     • Check wallet balances<br>
     • Show recent transactions<br>
@@ -568,7 +568,7 @@ if (
     • Explain how to send SOL<br>
     • Explain how to receive SOL<br>
     • Help connect Phantom Wallet<br>
-    • Answer YENDO questions<br><br>
+    • Answer XZENDO questions<br><br>
 
     More capabilities coming soon.
   `;
@@ -797,7 +797,7 @@ function toggleLoginPassword() {
     input.type = "password";
     icon.className = "bi bi-eye";
   }
-}
+} 
 
 function toggleSignupPassword() {
   const input = document.getElementById("signupPassword");
@@ -857,7 +857,36 @@ async function connectWallet() {
     alert("Wallet connection was cancelled or failed.");
   }
 }
-async function askYendoAI() {
+async function disconnectWallet() {
+  // Check if Phantom exists
+  if (!window.solana || !window.solana.isPhantom) {
+    alert("Phantom Wallet is not installed.");
+    return;
+  }
+
+  // Check if wallet is connected
+  if (!window.solana.isConnected) {
+    alert("No wallet connected.");
+    return;
+  }
+
+  try {
+    await window.solana.disconnect();
+
+    console.log("Wallet disconnected.");
+
+    // Reset UI
+document.getElementById("balanceAmount").textContent = "Not Connected";
+document.getElementById("usdValue").textContent = "$0.00";
+
+    alert("Wallet disconnected successfully.");
+
+  } catch (err) {
+    console.error(err);
+    alert("Failed to disconnect wallet.");
+  }
+}
+async function askXZendoAI() {
 
   const input =
     document.getElementById("aiInput").value;

@@ -750,3 +750,6 @@ header nav button {
 .logout-btn {
   width: 220px; /* same width as the wallet buttons */
 }
+#connectWalletBtn {
+    margin-right: 12px;
+}
